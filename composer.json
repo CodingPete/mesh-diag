@@ -1,0 +1,20 @@
+{
+  "name": "BTMesh/Mesh-Diag",
+  "description": "",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Peter Meyer",
+      "email": "email@example.com"
+    },
+    {
+      "name": "Sascha Greve",
+      "email": "email@example.com"
+    },
+    {
+      "name": "Julian Brüggemann",
+      "email": "email@example.com"
+    }
+  ]
+}
