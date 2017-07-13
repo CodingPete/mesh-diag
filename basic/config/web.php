@@ -46,7 +46,8 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'diagnose']
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'testcase'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'sample']
             ],
         ],
     ],
