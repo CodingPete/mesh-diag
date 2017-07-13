@@ -39,7 +39,7 @@ class Sample extends \yii\db\ActiveRecord
             [['latitude', 'longitude'], 'number'],
             [['testcases_id'], 'integer'],
             [['UUID'], 'string', 'max' => 128],
-            [['testcases_id'], 'exist', 'skipOnError' => true, 'targetClass' => Testcases::className(), 'targetAttribute' => ['testcases_id' => 'id']],
+            [['testcases_id'], 'exist', 'skipOnError' => true, 'targetClass' => Testcase::className(), 'targetAttribute' => ['testcases_id' => 'id']],
         ];
     }
 
@@ -79,6 +79,6 @@ class Sample extends \yii\db\ActiveRecord
      */
     public function getTestcases()
     {
-        return $this->hasOne(Testcases::className(), ['id' => 'testcases_id']);
+        return $this->hasOne(Testcase::className(), ['id' => 'testcases_id']);
     }
 }
