@@ -2,9 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\Sample;
+use app\models\Testcase;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\JsonResponseFormatter;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -59,9 +62,38 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($testcase = 0)
     {
-        return $this->render('index');
+        $allow_create = false;
+
+        if(!Yii::$app->user->isGuest) $allow_create = !$allow_create;
+
+
+        return $this->render('index', [
+            'allow_create' => $allow_create,
+            'testcases' => Testcase::find()->all(),
+            'samples' => Sample::findAll([
+                "testcases_id" => intval($testcase)
+            ])
+        ]);
+    }
+
+    public function actionSample() {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Sample::find()
+            ->with('proximities')
+            ->with('remotes')
+            ->where([
+                "testcases_id" => intval(
+                    Yii::$app->request->post("testcase_id")
+                ),
+                "timestamp" => date(
+                    "Y-m-d H:i:s",
+                    Yii::$app->request->post("timestamp")
+                )
+            ])
+            ->asArray()
+            ->all();
     }
 
     /**

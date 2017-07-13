@@ -47,7 +47,9 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'testcase'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'sample']
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'sample'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'proximity'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'remote'],
             ],
         ],
     ],
