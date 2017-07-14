@@ -2,9 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\Proximity;
+use app\models\Remote;
 use app\models\Sample;
 use app\models\Testcase;
 use Yii;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\JsonResponseFormatter;
@@ -102,15 +105,52 @@ class SiteController extends Controller
             ->all();
     }
 
+    public function actionHelp() {
+        echo "<pre>";
+        print_r(error_get_last());
+        echo "</pre>";
+    }
+
     public function actionInput() {
 
-        $input = Yii::$app->request->post();
-        $sample = new Sample();
-        $sample->latitude = $input["latitude"];
-        $sample->longitude = $input["longitude"];
-        $sample->UUID = $input["UUID"];
-        $sample->testcases_id = $input["testcases_id"];
-        $sample->save(false);
+        try {
+            $input = Yii::$app->request->post();
+            $sample = new Sample();
+            $sample->latitude = $input["latitude"];
+            $sample->longitude = $input["longitude"];
+            $sample->UUID = $input["UUID"];
+            $sample->testcases_id = $input["testcases_id"];
+            $sample->save(false);
+
+            foreach($input["proximities"] as $input_prox) {
+                try {
+                    $proximity = new Proximity();
+                    $proximity->samples_id = $sample->id;
+                    $proximity->samples_testcases_id = $sample->testcases_id;
+                    $proximity->UUID = $input_prox["mac"];
+                    $proximity->save(false);
+                } catch(Exception $e) {
+
+                }
+
+            }
+
+            foreach($input["remotes"] as $input_remo) {
+                try {
+                    $remote = new Remote();
+                    $remote->samples_id = $sample->id;
+                    $remote->samples_testcases_id = $sample->testcases_id;
+                    $remote->UUID = $input_remo["mac"];
+                    $remote->save(false);
+                } catch(Exception $e) {
+
+                }
+
+            }
+        } catch(Exception $e) {
+
+        }
+
 
     }
 
